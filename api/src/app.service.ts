@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { GameStateDTO } from './dto/GameStateDTO';
 import Game from './game/Game';
 import Player from './game/Player';
 
@@ -10,8 +11,11 @@ export class AppService {
     return 'Hello World!';
   }
 
-  getPlayers(): Array<Player> {
-    return this.game.getPlayers();
+  getGameState(): GameStateDTO {
+    if (!this.game) {
+      return null;
+    }
+    return this.game.getGameState();
   }
 
   postPoint(gameId: string, playerId: string, pointValue: number): boolean {
@@ -42,13 +46,28 @@ export class AppService {
     return true;
   }
 
+  leaveGame(playerId: string): boolean {
+    if (!this.game) {
+      return false;
+    }
+
+    return this.game.removePlayer(playerId);
+  }
+
   createGame(gameId: string, creatorId: string, creatorName: string): boolean {
     const players = new Array<Player>();
     players.push(new Player(creatorId, creatorName));
-    this.game = new Game(
-      gameId,
-      players
-    );
+    this.game = new Game(gameId, players);
+
+    return true;
+  }
+
+  showCards(): boolean {
+    if (!this.game) {
+      return false;
+    }
+
+    this.game.setShowCards(true);
 
     return true;
   }
@@ -58,7 +77,8 @@ export class AppService {
       return false;
     }
 
-    this.game.getPlayers().forEach((player: Player) => player.point = 0);
+    this.game.getPlayers().forEach((player: Player) => (player.point = 0));
+    this.game.setShowCards(false);
 
     return true;
   }
