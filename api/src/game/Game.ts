@@ -1,14 +1,10 @@
-/* eslint-disable prettier/prettier */
 import { GameStateDTO } from '../dto/GameStateDTO';
 import Player from './Player';
 
 export default class Game {
   private showCards: boolean;
 
-  constructor(
-    private gameId: string,
-    private players: Array<Player>,
-  ) {
+  constructor(private gameId: string, private players: Array<Player>) {
     this.showCards = false;
   }
 
@@ -37,11 +33,8 @@ export default class Game {
   }
 
   removePlayer(playerId: string): boolean {
-    const index = this.players.findIndex(p => { 
-      console.log(p.getId(), playerId, p.getId() === playerId);
-      return  p.getId() === playerId
-    });
-    console.log(index);
+    const index = this.players.findIndex((p) => p.getId() === playerId);
+
     if (index === -1) {
       return false;
     } else {

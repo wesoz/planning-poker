@@ -16,8 +16,8 @@ const JoinGameForm = () => {
     const { game } = useParams();
     const [ playerName, setPlayerName ] = useInputState('');
 
-    const mutation = useMutation((newGame: IGame) => {
-        return axios.post('join', newGame)
+    const mutation = useMutation((gameJoin: IGame) => {
+        return axios.post('join', gameJoin)
     });
 
     const gotoPlanning = () => {

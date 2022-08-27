@@ -31,7 +31,7 @@ const GameBoard = () => {
 
   const leaveGameMutation = useMutation(
     (playerId: string) => {
-      return axios.post("leave", { playerId });
+      return axios.post("leave", { gameId: game, playerId });
     }
   );
 
@@ -46,7 +46,7 @@ const GameBoard = () => {
   const { data: gameState, refetch: refetchGameState } = useQuery(
     "game-state",
     () => {
-      return axios.get("game-state");
+      return axios.get(`game-state/${game}`);
     },
     { onError: () => navigate("/"), refetchInterval: 2000 }
   );
@@ -68,7 +68,7 @@ const GameBoard = () => {
 
   const clearPointsMutation = useMutation(
     () => {
-      return axios.post("clear");
+      return axios.post("clear", { gameId: game });
     },
     {
       onSuccess: () => {
@@ -93,7 +93,7 @@ const GameBoard = () => {
 
   const showCardsMutation = useMutation(
     () => {
-      return axios.post("show");
+      return axios.post("show", { gameId: game });
     },
     {
       onSuccess: () => {
@@ -162,7 +162,7 @@ const GameBoard = () => {
             justifyContent: "space-around",
           }}
         >
-          {gameState?.data.players.map((p: IPlayer) => {
+          {gameState?.data?.players?.map((p: IPlayer) => {
             return (
               <Card
                 key={p.id}

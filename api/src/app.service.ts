@@ -2,83 +2,99 @@ import { Injectable } from '@nestjs/common';
 import { GameStateDTO } from './dto/GameStateDTO';
 import Game from './game/Game';
 import Player from './game/Player';
+import { GameRepository } from './repository/GameRepository';
 
 @Injectable()
 export class AppService {
-  game: Game;
+  gameRepository = new GameRepository();
 
-  getHello(): string {
-    return 'Hello World!';
+  getAllGames(): Array<Game> {
+    return this.gameRepository.findAll();
   }
 
-  getGameState(): GameStateDTO {
-    if (!this.game) {
+  getGameState(gameId: string): GameStateDTO {
+    const game = this.gameRepository.find(gameId);
+    if (!game) {
       return null;
     }
-    return this.game.getGameState();
+
+    return game.getGameState();
   }
 
   postPoint(gameId: string, playerId: string, pointValue: number): boolean {
-    if (gameId !== this.game.getId()) {
+    const game = this.gameRepository.find(gameId);
+    if (!game) {
       return false;
     }
 
-    if (!this.game.findPlayer(playerId)) {
+    if (!game.findPlayer(playerId)) {
       return false;
     }
 
-    this.game.findPlayer(playerId).point = pointValue;
+    game.findPlayer(playerId).point = pointValue;
 
     return true;
   }
 
   joinGame(gameId: string, playerId: string, playerName: string): boolean {
-    if (gameId !== this.game.getId()) {
+    const game = this.gameRepository.find(gameId);
+    if (!game) {
       return false;
     }
 
-    if (this.game.findPlayer(playerId)) {
+    if (game.findPlayer(playerId)) {
       return false;
     }
 
-    this.game.addPlayer(new Player(playerId, playerName));
+    game.addPlayer(new Player(playerId, playerName));
 
     return true;
   }
 
-  leaveGame(playerId: string): boolean {
-    if (!this.game) {
+  leaveGame(gameId: string, playerId: string): boolean {
+    const game = this.gameRepository.find(gameId);
+    if (!game) {
       return false;
     }
 
-    return this.game.removePlayer(playerId);
+    if (!game.removePlayer(playerId)) {
+      return false;
+    }
+
+    if (game.getPlayers().length === 0) {
+      return this.gameRepository.delete(gameId);
+    }
+
+    return true;
   }
 
   createGame(gameId: string, creatorId: string, creatorName: string): boolean {
     const players = new Array<Player>();
     players.push(new Player(creatorId, creatorName));
-    this.game = new Game(gameId, players);
+    this.gameRepository.create(new Game(gameId, players));
 
     return true;
   }
 
-  showCards(): boolean {
-    if (!this.game) {
+  showCards(gameId: string): boolean {
+    const game = this.gameRepository.find(gameId);
+    if (!game) {
       return false;
     }
 
-    this.game.setShowCards(true);
+    game.setShowCards(true);
 
     return true;
   }
 
-  clearPoints(): boolean {
-    if (!this.game) {
+  clearPoints(gameId: string): boolean {
+    const game = this.gameRepository.find(gameId);
+    if (!game) {
       return false;
     }
 
-    this.game.getPlayers().forEach((player: Player) => (player.point = 0));
-    this.game.setShowCards(false);
+    game.getPlayers().forEach((player: Player) => (player.point = 0));
+    game.setShowCards(false);
 
     return true;
   }

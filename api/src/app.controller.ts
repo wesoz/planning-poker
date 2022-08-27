@@ -4,18 +4,25 @@ import {
   Controller,
   Get,
   NotFoundException,
+  Param,
   Post,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { GameStateDTO } from './dto/GameStateDTO';
+import Game from './game/Game';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('game-state')
-  getGameState(): GameStateDTO {
-    return this.appService.getGameState();
+  @Get('all')
+  getAllGames(): Array<Game> {
+    return this.appService.getAllGames();
+  }
+
+  @Get('game-state/:gameId')
+  getGameState(@Param('gameId') gameId: string): GameStateDTO {
+    return this.appService.getGameState(gameId);
   }
 
   @Post('point')
@@ -45,8 +52,8 @@ export class AppController {
   }
 
   @Post('leave')
-  leaveGame(@Body() data: { playerId: string }) {
-    if (!this.appService.leaveGame(data.playerId)) {
+  leaveGame(@Body() data: { gameId: string; playerId: string }) {
+    if (!this.appService.leaveGame(data.gameId, data.playerId)) {
       throw new NotFoundException('Internal Error leaving game');
     }
   }
@@ -65,15 +72,15 @@ export class AppController {
   }
 
   @Post('show')
-  showCards() {
-    if (!this.appService.showCards()) {
-      throw new NotFoundException('Internal Error leaving game');
+  showCards(@Body() data: { gameId: string }) {
+    if (!this.appService.showCards(data.gameId)) {
+      throw new NotFoundException('Internal Error changing show attribute');
     }
   }
 
   @Post('clear')
-  clearPoints() {
-    if (!this.appService.clearPoints()) {
+  clearPoints(@Body() data: { gameId: string }) {
+    if (!this.appService.clearPoints(data.gameId)) {
       throw new ConflictException('Internal Error creating game');
     }
   }
