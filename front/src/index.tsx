@@ -12,7 +12,7 @@ import PlanningPoker from './page/planning-poker/PlanningPoker';
 import axios from 'axios';
 import JoinGame from './page/join/JoinGame';
 
-axios.defaults.baseURL =  process.env.NODE_ENV === 'production' ? process.env.API_URL : 'http://localhost:3002/';
+axios.defaults.baseURL =  process.env.NODE_ENV.toLowerCase() === 'production' ? process.env.API_URL : 'http://localhost:3002/';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
