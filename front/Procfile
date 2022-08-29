@@ -1,1 +1,1 @@
-web: cd front && npm run start
+web: cd front && NODE_ENV=production npm run start
