@@ -125,7 +125,7 @@ const GameBoard = () => {
       (prev: number, current: number) => (current += prev)
     );
     
-    return (sum ?? 0) / votes;
+    return ((sum ?? 0) / votes).toFixed(2);
   };
 
   const getAllCardsValues = () => {
@@ -180,7 +180,7 @@ const GameBoard = () => {
               <Card
                 key={p.id}
                 name={p.name}
-                showValue={showCardValue}
+                showValue={p.id === player || showCardValue}
                 value={p.point ?? 0}
               />
             );
