@@ -139,6 +139,10 @@ const GameBoard = () => {
     return cards;
   };
 
+  const getJoinURL = () => {
+    return new URL(process.env.API_URL || "", game).href
+  }
+
   return (
     <div
       style={{
@@ -210,7 +214,7 @@ const GameBoard = () => {
           </Button>
         </div>
         <Text style={{ marginTop: "50px" }}>
-          http://localhost:3000/join/{game}
+            {getJoinURL()}
         </Text>
       </div>
     </div>
