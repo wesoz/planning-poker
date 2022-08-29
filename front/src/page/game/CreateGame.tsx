@@ -59,7 +59,7 @@ const CreateGame = () => {
           error={!playerName}
           onChange={setPlayerName}
           placeholder="Type Your Name"
-          value={`NODE_ENV=${process.env.NODE_ENV} - API_URL=${process.env.API_URL}`}
+          value={`NODE_ENV=${process.env.NODE_ENV} - REACT_APP_API_URL=${process.env.REACT_APP_API_URL}`}
         />
         <Button
           onClick={() => {

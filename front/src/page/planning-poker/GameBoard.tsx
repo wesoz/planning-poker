@@ -140,7 +140,7 @@ const GameBoard = () => {
   };
 
   const getJoinURL = () => {
-    return new URL(process.env.API_URL || "", game).href
+    return new URL(process.env.REACT_APP_API_URL || "", game).href
   }
 
   return (
