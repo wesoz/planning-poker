@@ -1,13 +1,9 @@
 export default class Player {
-    constructor(
-        private id: string,
-        private name: string) {
+  constructor(private id: string, private name: string) {}
 
-    }
-    
-    point: number;
+  point = 0;
 
-    getId(): string {
-        return this.id;
-    }
+  getId(): string {
+    return this.id;
+  }
 }

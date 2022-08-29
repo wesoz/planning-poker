@@ -113,12 +113,19 @@ const GameBoard = () => {
       return 0;
     }
     const playersData = gameState?.data.players as Array<IPlayer>;
-    const points = playersData.map((p) => p.point);
+    let votes = 0;
+
+    const points: Array<number> = playersData.map((p) => {
+      if (p.point) {
+        votes++;
+      }
+      return p.point;
+    });
     const sum = points.reduce(
       (prev: number, current: number) => (current += prev)
     );
-
-    return sum ?? 0;
+    
+    return (sum ?? 0) / votes;
   };
 
   const getAllCardsValues = () => {
@@ -129,10 +136,12 @@ const GameBoard = () => {
     const cards: { [key: string]: number } = {};
     const playersData = gameState?.data.players as Array<IPlayer>;
     playersData.forEach((pd) => {
-      if (!cards[pd.point]) {
-        cards[pd.point] = 1;
-      } else {
-        cards[pd.point] += 1;
+      if (pd.point) {
+        if (!cards[pd.point]) {
+          cards[pd.point] = 1;
+        } else {
+          cards[pd.point] += 1;
+        }
       }
     });
 
