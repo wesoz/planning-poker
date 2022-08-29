@@ -12,8 +12,5 @@
     "heroku-postbuild": "if [ $CLIENT_ENV ]; then npm run postinstall-client; elif [ $SERVER_ENV ]; then npm run postinstall-server; else echo no environment detected, please set CLIENT_ENV or SERVER_ENV; fi",
     "postinstall-client": "cd front && npm install && npm run build",
     "postinstall-server": "cd api && npm install"
-    // "start": "if [ $CLIENT_ENV ]; then npm run start-client; elif [ $SERVER_ENV ]; then npm run start-server; else echo no environment detected, please set CLIENT_ENV or SERVER_ENV; fi",
-    // "start-client": "cd front && npm start",
-    // "start-server": "cd api && npm run start:prod"
-}
+  }
 }
