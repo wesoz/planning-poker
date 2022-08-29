@@ -21,6 +21,15 @@ export class AppService {
     return game.getGameState();
   }
 
+  validatePlayer(gameId: string, playerId: string): boolean {
+    const game = this.gameRepository.find(gameId);
+    if (!game) {
+      return false;
+    }
+
+    return Boolean(game.findPlayer(playerId));
+  }
+
   postPoint(gameId: string, playerId: string, pointValue: number): boolean {
     const game = this.gameRepository.find(gameId);
     if (!game) {

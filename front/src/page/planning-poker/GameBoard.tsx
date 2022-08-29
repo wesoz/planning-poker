@@ -23,12 +23,6 @@ const GameBoard = () => {
   const { game, player } = useParams();
   const [showCardValue, setShowCardValue] = useState(false);
 
-  useEffect(() => {
-    if (!game || !player) {
-      navigate("/");
-    }
-  }, [game, player, navigate]);
-
   const leaveGameMutation = useMutation(
     (playerId: string) => {
       return axios.post("leave", { gameId: game, playerId });
@@ -43,13 +37,21 @@ const GameBoard = () => {
     return () => window.removeEventListener("beforeunload", leaveGame);
   }, []);
 
-  const { data: gameState, refetch: refetchGameState } = useQuery(
+  const { data: gameState, refetch: refetchGameState, isFetching: isFetchingGameState } = useQuery(
     "game-state",
     () => {
       return axios.get(`game-state/${game}`);
     },
-    { onError: () => navigate("/"), refetchInterval: 2000 }
+    { onError: () => { console.log('error'); navigate("/") }, refetchInterval: 2000 }
   );
+
+  useEffect(() => {
+    console.log({game, player, isFetchingGameState , gameState: gameState?.data});
+    if (!game || !player ||
+      (!isFetchingGameState && !gameState?.data)) {
+      navigate("/");
+    }
+  }, [game, player, navigate, isFetchingGameState, gameState?.data]);
 
   useEffect(() => {
     setShowCardValue(gameState?.data.showCards)

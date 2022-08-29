@@ -1,16 +1,14 @@
-import React from 'react';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import axios from 'axios';
 import ReactDOM from "react-dom/client";
 import {
-  BrowserRouter,
-  Routes,
-  Route,
+  BrowserRouter, Route, Routes
 } from "react-router-dom";
-import PlanningPoker from './page/planning-poker/PlanningPoker';
-import axios from 'axios';
+import App from './App';
+import './index.css';
 import JoinGame from './page/join/JoinGame';
+import PlanningPoker from './page/planning-poker/PlanningPoker';
+import Reconnect from './page/reconnect/Reconnect';
+import reportWebVitals from './reportWebVitals';
 
 axios.defaults.baseURL =  process.env.REACT_APP_API_URL;
 
@@ -23,6 +21,7 @@ root.render(
       <Route path="/" element={<App />} />
       <Route path="planning/:game/:player" element={<PlanningPoker />} />
       <Route path="join/:game" element={<JoinGame />} />
+      <Route path="reconnect/:game/:player" element={<Reconnect />} />
     </Routes>
   </BrowserRouter>
 );

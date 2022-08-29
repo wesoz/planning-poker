@@ -25,6 +25,14 @@ export class AppController {
     return this.appService.getGameState(gameId);
   }
 
+  @Get('validate-player/:gameId/:playerId')
+  validatePlayer(
+    @Param('gameId') gameId: string,
+    @Param('playerId') playerId: string,
+  ): boolean {
+    return this.appService.validatePlayer(gameId, playerId);
+  }
+
   @Post('point')
   postPoint(@Body() postPointDTO: PostPointDTO) {
     if (
@@ -59,7 +67,7 @@ export class AppController {
   }
 
   @Post('create')
-  createGame(@Body() createDTO: CreateJoinDTO) {
+  createGame(@Body() createDTO: CreateJoinDTO): CreateJoinDTO {
     if (
       !this.appService.createGame(
         createDTO.gameId,
@@ -69,6 +77,8 @@ export class AppController {
     ) {
       throw new ConflictException('Internal Error creating game');
     }
+
+    return createDTO;
   }
 
   @Post('show')

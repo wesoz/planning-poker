@@ -16,9 +16,8 @@ const CreateGame = () => {
   const navigate = useNavigate();
   const [playerName, setPlayerName] = useInputState("");
 
-  const mutation = useMutation((newGame: IGame) => {
-    return axios.post("create", newGame);
-  });
+  const mutation = useMutation((newGame: IGame) => axios.post("create", newGame), 
+  { onSuccess: (result) => navigate(`planning/${result.data.gameId}/${result.data.playerId}`) });
 
   const gotoPlanning = () => {
     if (!playerName) {
@@ -33,7 +32,6 @@ const CreateGame = () => {
     const playerId = generateUID();
 
     mutation.mutate({ gameId, playerId, playerName });
-    navigate(`planning/${gameId}/${playerId}`);
   };
 
   return (
