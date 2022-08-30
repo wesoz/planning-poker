@@ -235,6 +235,9 @@ const GameBoard = () => {
           </Button>
           <Button style={{ marginTop: "50px" }} onClick={() => {
             if (player) {
+              sessionStorage.removeItem("playerId");
+              sessionStorage.removeItem("gameId");
+              sessionStorage.removeItem("playerName");
               leaveGameMutation.mutate(player);
             }
             navigate("/");
