@@ -18,6 +18,11 @@ const JoinGameForm = () => {
 
     const mutation = useMutation((gameJoin: IGame) => {
         return axios.post('join', gameJoin)
+    },
+    {
+        onSuccess: (result) => {
+            navigate(`/planning/${result.data.gameId}/${result.data.playerId}`);
+        }
     });
 
     const gotoPlanning = () => {
@@ -32,7 +37,6 @@ const JoinGameForm = () => {
         const playerId = generateUID();
 
         mutation.mutate({ gameId: game ?? "", playerId, playerName });
-        navigate(`/planning/${game}/${playerId}`);
     }
 
     return (
@@ -55,7 +59,7 @@ const JoinGameForm = () => {
                     onChange={setPlayerName} 
                     placeholder="Type Your Name"/>
                 <Button 
-                    onClick={() => { gotoPlanning() }}>Join Game!</Button>
+                    onClick={() => { gotoPlanning() }} disabled={mutation.isLoading}>Join Game!</Button>
             </div>
         </div>
     );

@@ -30,7 +30,6 @@ const CreateGame = () => {
 
     const gameId = generateUID();
     const playerId = generateUID();
-
     mutation.mutate({ gameId, playerId, playerName });
   };
 
@@ -63,6 +62,7 @@ const CreateGame = () => {
           onClick={() => {
             gotoPlanning();
           }}
+          disabled={mutation.isLoading}
         >
           Create Game!
         </Button>

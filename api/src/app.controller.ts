@@ -47,7 +47,7 @@ export class AppController {
   }
 
   @Post('join')
-  joinGame(@Body() joinDTO: CreateJoinDTO) {
+  joinGame(@Body() joinDTO: CreateJoinDTO): CreateJoinDTO {
     if (
       !this.appService.joinGame(
         joinDTO.gameId,
@@ -57,6 +57,8 @@ export class AppController {
     ) {
       throw new NotFoundException('Internal Error joining game');
     }
+
+    return joinDTO;
   }
 
   @Post('leave')
