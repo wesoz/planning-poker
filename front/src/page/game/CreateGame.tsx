@@ -54,12 +54,12 @@ const CreateGame = () => {
           borderRadius: "25px",
         }}
       >
-        <Title style={{ marginBottom: "80px" }}>Create New Game</Title>
+        <Title style={{ marginBottom: "80px" }}>Criar Novo Jogo</Title>
         <TextInput
           style={{ margin: "10px" }}
           error={!playerName}
           onChange={setPlayerName}
-          placeholder="Type Your Name"
+          placeholder="Digite seu nome"
           maxLength={20}
           disabled={mutation.isLoading}
         />
@@ -70,7 +70,7 @@ const CreateGame = () => {
           }}
           disabled={mutation.isLoading}
         >
-          Create Game!
+          Criar Jogo!
         </Button>
         {mutation.isLoading && <Loader />}
       </div>

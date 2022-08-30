@@ -202,11 +202,11 @@ const GameBoard = () => {
           })}
         </div>
         <Button style={{ marginTop: "20px" }} onClick={() => revealCards()}>
-          Reveal Cards
+          Revelar Cartas
         </Button>
         <PointSelector onSelectPoint={(point) => postPoint(point)} />
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <Text>Average: {getAvgCardsValues()}</Text>
+          <Text>Média: {getAvgCardsValues()}</Text>
         </div>
         <div
           style={{
@@ -231,7 +231,7 @@ const GameBoard = () => {
           }}
         >
           <Button style={{ marginTop: "50px" }} onClick={() => clearPoints()}>
-            Clear
+            Limpar
           </Button>
           <Button style={{ marginTop: "50px" }} onClick={() => {
             if (player) {
@@ -242,7 +242,7 @@ const GameBoard = () => {
             }
             navigate("/");
           }}>
-            Quit
+            Sair
           </Button>
         </div>
         <div 
@@ -259,7 +259,7 @@ const GameBoard = () => {
           <Text>
             {getJoinURL()}
           </Text>
-          <Button style={{ marginLeft: "10px" }} variant="outline" onClick={() => { navigator.clipboard.writeText(getJoinURL()) }} >Copy!</Button>
+          <Button style={{ marginLeft: "10px" }} variant="outline" onClick={() => { navigator.clipboard.writeText(getJoinURL()) }} >Copiar</Button>
         </div>
       </div>
     </div>

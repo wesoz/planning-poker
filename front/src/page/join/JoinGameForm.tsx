@@ -36,36 +36,37 @@ const JoinGameForm = () => {
 
     const render = () => {
         if (player !== 'new') {
-            const gameId = sessionStorage.getItem("gameId");
-            const playerId = sessionStorage.getItem("playerId");
-            const playerName = sessionStorage.getItem("playerName");
-            if (gameId && playerId && playerName) {
+            const gameId = sessionStorage.getItem("gameId") || "";
+            const playerId = sessionStorage.getItem("playerId") || "";
+            const playerName = sessionStorage.getItem("playerName") || "";
+            
+            if (Boolean(gameId && playerId && playerName)) {
                 joinGameMutation.mutate({ gameId, playerId, playerName });
             } else {
-                navigate("/");
+                navigate("/", { replace: true });
             }
             return (
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <Title order={3} style={{ marginBottom: "30px" }}>Reconnecting...</Title>
+                    <Title order={3} style={{ marginBottom: "30px" }}>Reconectando...</Title>
                     <Loader />
                 </div>
             );
         } else {
             return (
                 <div>
-                    <Title style={{ marginBottom: "80px" }}>Join Game</Title>
+                    <Title style={{ marginBottom: "80px" }}>Entrar no Jogo</Title>
                     <TextInput
                         style={{ margin: "10px" }}
                         error={!playerName} 
                         onChange={setPlayerName} 
-                        placeholder="Type Your Name"
+                        placeholder="Digite seu nome"
                         disabled={joinGameMutation.isLoading}/>
                     <Button 
                         style={{ margin: "50px" }}
                         onClick={() => { gotoPlanning() }} 
                         disabled={joinGameMutation.isLoading}
                     >
-                        Join Game!
+                        Entrar no Jogo!
                     </Button>
                     {joinGameMutation.isLoading && <Loader />}
                 </div>
