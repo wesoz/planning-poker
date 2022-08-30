@@ -10,16 +10,14 @@ const shortUUID = require('short-uuid');
 
 const JoinGameForm = () => {
     const navigate = useNavigate();
-    const { game } = useParams();
+    const { game, player } = useParams();
     const [ playerName, setPlayerName ] = useInputState('');
 
-    const mutation = useMutation((gameJoin: IGame) => {
+    const joinGameMutation = useMutation((gameJoin: IGame) => {
         return axios.post('join', gameJoin)
     },
     {
-        onSuccess: (result) => {
-            navigate(`/planning/${result.data.gameId}/${result.data.playerId}`);
-        }
+        onSuccess: (result) => navigate(`/planning/${result.data.gameId}/${result.data.playerId}`, { replace: true })
     });
 
     const gotoPlanning = () => {
@@ -33,9 +31,48 @@ const JoinGameForm = () => {
 
         const playerId = generateUID();
 
-        mutation.mutate({ gameId: game ?? "", playerId, playerName });
+        joinGameMutation.mutate({ gameId: game ?? "", playerId, playerName });
     }
 
+    const render = () => {
+        if (player !== 'new') {
+            const gameId = sessionStorage.getItem("gameId");
+            const playerId = sessionStorage.getItem("playerId");
+            const playerName = sessionStorage.getItem("playerName");
+            if (gameId && playerId && playerName) {
+                joinGameMutation.mutate({ gameId, playerId, playerName });
+            } else {
+                navigate("/");
+            }
+            return (
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <Title order={3} style={{ marginBottom: "30px" }}>Reconnecting...</Title>
+                    <Loader />
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <Title style={{ marginBottom: "80px" }}>Join Game</Title>
+                    <TextInput
+                        style={{ margin: "10px" }}
+                        error={!playerName} 
+                        onChange={setPlayerName} 
+                        placeholder="Type Your Name"
+                        disabled={joinGameMutation.isLoading}/>
+                    <Button 
+                        style={{ margin: "50px" }}
+                        onClick={() => { gotoPlanning() }} 
+                        disabled={joinGameMutation.isLoading}
+                    >
+                        Join Game!
+                    </Button>
+                    {joinGameMutation.isLoading && <Loader />}
+                </div>
+            );
+        }
+    }
+    
     return (
         <div 
             style={{
@@ -55,21 +92,7 @@ const JoinGameForm = () => {
                     backgroundColor: "#ffffff",
                     borderRadius: "25px",
                 }}>
-                <Title style={{ marginBottom: "80px" }}>Join Game</Title>
-                <TextInput
-                    style={{ margin: "10px" }}
-                    error={!playerName} 
-                    onChange={setPlayerName} 
-                    placeholder="Type Your Name"
-                    disabled={mutation.isLoading}/>
-                <Button 
-                    style={{ margin: "50px" }}
-                    onClick={() => { gotoPlanning() }} 
-                    disabled={mutation.isLoading}
-                >
-                    Join Game!
-                </Button>
-                {mutation.isLoading && <Loader />}
+                {render()}
             </div>
         </div>
     );

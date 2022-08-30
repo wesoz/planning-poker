@@ -46,17 +46,23 @@ const GameBoard = () => {
     { onError: () => { navigate("/") }, refetchInterval: 2000 }
   );
 
-  // TODO: redirecionar pra tela de join
-  const joinMutation = useMutation((gameJoin: IGame) => axios.post('join', gameJoin));
+  const getJoinURL = () => {
+    return new URL(`/join/${game}/new`, process.env.REACT_APP_CLIENT_URL).href
+  }
 
   useEffect(() => {
-    const playerFound = gameState?.data.players.find((p: IPlayer) => p.id === player);
-    if (!playerFound) {
-      joinMutation.mutate({ gameId: game ?? "", playerId: player ?? "", playerName: sessionStorage.getItem("playerName") ?? player ?? "" });
-    } else {
-      sessionStorage.setItem("playerName", playerFound.name);
+    if (!isFetchingGameState) {
+      const playerFound = gameState?.data.players.find((p: IPlayer) => p.id === player);
+      if (!playerFound) {
+        const redirectURL = `/join/${game}/reconnect`;
+        navigate(redirectURL, { replace: true });
+      } else {
+        sessionStorage.setItem("playerId", player ?? "");
+        sessionStorage.setItem("gameId", game ?? "");
+        sessionStorage.setItem("playerName", playerFound.name);
+      }
     }
-  }, [gameState?.data.players]);
+  }, [gameState?.data.players, isFetchingGameState]);
 
   useEffect(() => {
     if (!game || !player ||
@@ -162,10 +168,6 @@ const GameBoard = () => {
     return cards;
   };
 
-  const getJoinURL = () => {
-    return new URL(`join/${game}`, process.env.REACT_APP_CLIENT_URL).href
-  }
-
   return (
     <div
       style={{
@@ -254,7 +256,7 @@ const GameBoard = () => {
           <Text>
             {getJoinURL()}
           </Text>
-          <Button variant="outline" onClick={() => { navigator.clipboard.writeText(getJoinURL()) }} >Copy!</Button>
+          <Button style={{ marginLeft: "10px" }} variant="outline" onClick={() => { navigator.clipboard.writeText(getJoinURL()) }} >Copy!</Button>
         </div>
       </div>
     </div>

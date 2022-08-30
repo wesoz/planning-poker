@@ -17,7 +17,7 @@ const CreateGame = () => {
   const [playerName, setPlayerName] = useInputState("");
 
   const mutation = useMutation((newGame: IGame) => axios.post("create", newGame), 
-  { onSuccess: (result) => navigate(`planning/${result.data.gameId}/${result.data.playerId}`) });
+  { onSuccess: (result) => navigate(`/planning/${result.data.gameId}/${result.data.playerId}`, { replace: true }) });
 
   const gotoPlanning = () => {
     if (!playerName) {

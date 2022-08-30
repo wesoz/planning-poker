@@ -20,7 +20,7 @@ root.render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="planning/:game/:player" element={<PlanningPoker />} />
-      <Route path="join/:game" element={<JoinGame />} />
+      <Route path="join/:game/:player" element={<JoinGame />} />
       <Route path="reconnect/:game/:player" element={<Reconnect />} />
     </Routes>
   </BrowserRouter>
