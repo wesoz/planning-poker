@@ -1,5 +1,4 @@
-import { Box, Center, MantineTheme, Text } from "@mantine/core";
-import React from "react";
+import { Box, Center, Text } from "@mantine/core";
 
 const Card = (props: ICardsProps) => {
 
@@ -25,7 +24,7 @@ const Card = (props: ICardsProps) => {
         
                 '&:hover': {
                     backgroundColor: props.showValue  || props.value === 0 ? theme.colors.gray[1] : theme.colors.dark[3],
-                    color: props.showValue  || props.value === 0 ? theme.colors.gray[1] : theme.colors.dark[3],
+                    color: props.showValue  || props.value === 0 ? theme.colors.dark[8] : theme.colors.dark[3],
                 },
                 minWidth: 58,
                 minHeight: 30

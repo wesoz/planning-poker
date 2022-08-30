@@ -3,13 +3,10 @@ import { useInputState } from "@mantine/hooks";
 import axios from "axios";
 import { useMutation } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
+import { IGame } from "../interfaces/IGame";
 const shortUUID = require('short-uuid');
 
-interface IGame {
-    gameId: string; 
-    playerId: string; 
-    playerName: string 
-}
+
 
 const JoinGameForm = () => {
     const navigate = useNavigate();

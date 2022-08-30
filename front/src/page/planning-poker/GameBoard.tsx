@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
+import { IGame } from "../interfaces/IGame";
 import Card from "./components/Card";
 import PointSelector from "./components/PointSelector";
 
@@ -42,11 +43,21 @@ const GameBoard = () => {
     () => {
       return axios.get(`game-state/${game}`);
     },
-    { onError: () => { console.log('error'); navigate("/") }, refetchInterval: 2000 }
+    { onError: () => { navigate("/") }, refetchInterval: 2000 }
   );
 
+  const joinMutation = useMutation((gameJoin: IGame) => axios.post('join', gameJoin));
+
   useEffect(() => {
-    console.log({game, player, isFetchingGameState , gameState: gameState?.data});
+    const playerFound = gameState?.data.players.find((p: IPlayer) => p.id === player);
+    if (!playerFound) {
+      joinMutation.mutate({ gameId: game ?? "", playerId: player ?? "", playerName: sessionStorage.getItem("playerName") ?? player ?? "" });
+    } else {
+      sessionStorage.setItem("playerName", playerFound.name);
+    }
+  }, [gameState?.data.players]);
+
+  useEffect(() => {
     if (!game || !player ||
       (!isFetchingGameState && !gameState?.data)) {
       navigate("/");
@@ -219,7 +230,12 @@ const GameBoard = () => {
           <Button style={{ marginTop: "50px" }} onClick={() => clearPoints()}>
             Clear
           </Button>
-          <Button style={{ marginTop: "50px" }} onClick={() => navigate("/")}>
+          <Button style={{ marginTop: "50px" }} onClick={() => {
+            if (player) {
+              leaveGameMutation.mutate(player);
+            }
+            navigate("/");
+          }}>
             Quit
           </Button>
         </div>
