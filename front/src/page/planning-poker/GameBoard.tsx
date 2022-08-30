@@ -46,6 +46,7 @@ const GameBoard = () => {
     { onError: () => { navigate("/") }, refetchInterval: 2000 }
   );
 
+  // TODO: redirecionar pra tela de join
   const joinMutation = useMutation((gameJoin: IGame) => axios.post('join', gameJoin));
 
   useEffect(() => {
