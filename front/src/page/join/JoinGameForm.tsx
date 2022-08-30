@@ -1,4 +1,4 @@
-import { Button, TextInput } from "@mantine/core";
+import { Button, Loader, TextInput, Title } from "@mantine/core";
 import { useInputState } from "@mantine/hooks";
 import axios from "axios";
 import { useMutation } from "react-query";
@@ -40,26 +40,39 @@ const JoinGameForm = () => {
     }
 
     return (
-        <div style={{ 
-            display: "flex", 
-            justifyContent: "center", 
-            alignItems: "center",
-            margin: "25px",
-            height: "500px",
-            outline: "dashed 1px black",
-         }}>
-            <div style={{ 
-                display: "flex", 
-                flexDirection:"column",
-                justifyContent: "space-around", 
-                height: "200px" 
+        <div 
+            style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100vh",
+                backgroundColor: "#c7dcff"
             }}>
+            <div 
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "50px",
+                    backgroundColor: "#ffffff",
+                    borderRadius: "25px",
+                }}>
+                <Title style={{ marginBottom: "80px" }}>Join Game</Title>
                 <TextInput
+                    style={{ margin: "10px" }}
                     error={!playerName} 
                     onChange={setPlayerName} 
-                    placeholder="Type Your Name"/>
+                    placeholder="Type Your Name"
+                    disabled={mutation.isLoading}/>
                 <Button 
-                    onClick={() => { gotoPlanning() }} disabled={mutation.isLoading}>Join Game!</Button>
+                    style={{ margin: "50px" }}
+                    onClick={() => { gotoPlanning() }} 
+                    disabled={mutation.isLoading}
+                >
+                    Join Game!
+                </Button>
+                {mutation.isLoading && <Loader />}
             </div>
         </div>
     );

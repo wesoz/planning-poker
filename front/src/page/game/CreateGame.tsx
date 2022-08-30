@@ -1,4 +1,4 @@
-import { Button, TextInput } from "@mantine/core";
+import { Button, Loader, TextInput, Title } from "@mantine/core";
 import { useInputState } from "@mantine/hooks";
 import axios from "axios";
 import React from "react";
@@ -39,26 +39,32 @@ const CreateGame = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        margin: "25px",
-        height: "500px",
-        outline: "dashed 1px black",
+        height: "100vh",
+        backgroundColor: "#c7dcff"
       }}
     >
       <div
         style={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-around",
-          height: "200px",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "50px",
+          backgroundColor: "#ffffff",
+          borderRadius: "25px",
         }}
       >
+        <Title style={{ marginBottom: "80px" }}>Create New Game</Title>
         <TextInput
+          style={{ margin: "10px" }}
           error={!playerName}
           onChange={setPlayerName}
           placeholder="Type Your Name"
           maxLength={20}
+          disabled={mutation.isLoading}
         />
         <Button
+          style={{ margin: "50px" }}
           onClick={() => {
             gotoPlanning();
           }}
@@ -66,6 +72,7 @@ const CreateGame = () => {
         >
           Create Game!
         </Button>
+        {mutation.isLoading && <Loader />}
       </div>
     </div>
   );

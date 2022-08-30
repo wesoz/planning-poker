@@ -160,9 +160,8 @@ const GameBoard = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        margin: "25px",
-        height: "500px",
-        outline: "dashed 1px black",
+        height: "100vh",
+        backgroundColor: "#c7dcff"
       }}
     >
       <div
@@ -224,9 +223,22 @@ const GameBoard = () => {
             Quit
           </Button>
         </div>
-        <Text style={{ marginTop: "50px" }}>
+        <div 
+          style={{ 
+            display: "flex", 
+            flexDirection: "row", 
+            marginTop: "200px", 
+            justifyContent: "space-between", 
+            alignItems: "center", 
+            backgroundColor: "#ffffff", 
+            padding: "10px",
+            borderRadius: "8px"
+          }}>
+          <Text>
             {getJoinURL()}
-        </Text>
+          </Text>
+          <Button variant="outline" onClick={() => { navigator.clipboard.writeText(getJoinURL()) }} >Copy!</Button>
+        </div>
       </div>
     </div>
   );
