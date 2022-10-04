@@ -21,7 +21,7 @@ export class AppController {
     return this.appService.getAllGames();
   }
 
-  @Get('all')
+  @Get('all-ids')
   getAllGameIds(): Array<string> {
     return this.appService.getAllGameIds();
   }
