@@ -108,4 +108,8 @@ export class AppController {
     this.appService.deleteGames(data.gameIds);
   }
   
+  @Delete('remove-all-games')
+  removeAllGames() {
+    this.appService.deleteAllGames();
+  }
 }

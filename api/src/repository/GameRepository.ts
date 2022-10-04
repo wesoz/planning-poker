@@ -21,6 +21,11 @@ export class GameRepository {
     }
   }
 
+  deleteAll(): boolean {
+    this.games = new Array<Game>();
+    return true;
+  }
+
   create(game: Game): boolean {
     if (!game.getId()) {
       return false;

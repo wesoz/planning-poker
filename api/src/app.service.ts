@@ -22,6 +22,10 @@ export class AppService {
     }
   }
 
+  deleteAllGames() {
+      this.gameRepository.deleteAll();
+  }
+
   getGameState(gameId: string): GameStateDTO {
     const game = this.gameRepository.find(gameId);
     if (!game) {
