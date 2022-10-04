@@ -12,6 +12,16 @@ export class AppService {
     return this.gameRepository.findAll();
   }
 
+  getAllGameIds(): Array<string> {
+    return this.gameRepository.findAll().map(g => g.getId());
+  }
+
+  deleteGames(gameIds: Array<string>) {
+    for (const gameId of gameIds) {
+      this.gameRepository.delete(gameId);
+    }
+  }
+
   getGameState(gameId: string): GameStateDTO {
     const game = this.gameRepository.find(gameId);
     if (!game) {

@@ -2,6 +2,7 @@ import {
   Body,
   ConflictException,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -18,6 +19,11 @@ export class AppController {
   @Get('all')
   getAllGames(): Array<Game> {
     return this.appService.getAllGames();
+  }
+
+  @Get('all')
+  getAllGameIds(): Array<string> {
+    return this.appService.getAllGameIds();
   }
 
   @Get('game-state/:gameId')
@@ -96,4 +102,10 @@ export class AppController {
       throw new ConflictException('Internal Error creating game');
     }
   }
+
+  @Delete('remove-games')
+  removeGames(@Body() data: { gameIds: Array<string> }) {
+    this.appService.deleteGames(data.gameIds);
+  }
+  
 }
