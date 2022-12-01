@@ -4,6 +4,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   NotFoundException,
   Param,
   Post,
@@ -24,6 +25,12 @@ export class AppController {
   @Get('all-ids')
   getAllGameIds(): Array<string> {
     return this.appService.getAllGameIds();
+  }
+
+  @Get('healthcheck')
+  @HttpCode(200)
+  healthcheck(): string {
+    return 'OK';
   }
 
   @Get('game-state/:gameId')
