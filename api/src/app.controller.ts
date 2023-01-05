@@ -114,7 +114,7 @@ export class AppController {
   removeGames(@Body() data: { gameIds: Array<string> }) {
     this.appService.deleteGames(data.gameIds);
   }
-  
+
   @Delete('remove-all-games')
   removeAllGames() {
     this.appService.deleteAllGames();
